@@ -58,7 +58,14 @@ $ npm run api:regression
 ```
 
 ### Cypress Dashboard
-All tests results are sent to cypress dashboard
+Record test results in dashboard
 ```
+$ npm run cy:run:record
 https://cloud.cypress.io/projects/k35t9b/runs
+```
+
+### cypress.env.json
+cypress.env.json with secrets is required to run the test locally
+```
+apiKey CYPRESS_RECORD_KEY user_password
 ```

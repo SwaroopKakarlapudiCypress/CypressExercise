@@ -15,6 +15,7 @@ pipeline {
       environment {
         cypress_user_password = credentials('user-password')
         cypress_apiKey = credentials('apiKey')
+        CYPRESS_RECORD_KEY = credentials('CYPRESS_RECORD_KEY')
       }
 
       steps {
