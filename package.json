@@ -1,0 +1,39 @@
+{
+  "name": "cypressexercise",
+  "version": "1.0.0",
+  "description": "Cypress automation framework exercise",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .  --ext .ts",
+    "lint-fix": "eslint --fix .  --ext .ts",
+    "cy:open": "node_modules/.bin/cypress open",
+    "cy:run": "node_modules/.bin/cypress run  --env name=prod --record --key 34b0d0c4-a1f2-4bfa-947c-b6a8207b359b",
+    "web:smoke": "CYPRESS_INCLUDE_TAGS=smoke node_modules/.bin/cypress run --spec 'cypress/e2e/web/**/*.cy.ts' --record --key 34b0d0c4-a1f2-4bfa-947c-b6a8207b359b",
+    "web:smoke:prod": "CYPRESS_INCLUDE_TAGS=smoke node_modules/.bin/cypress run --env name=prod --spec 'cypress/e2e/web/**/*.cy.ts'",
+    "web:smoke:staging": "CYPRESS_INCLUDE_TAGS=smoke node_modules/.bin/cypress run --env name=staging --spec 'cypress/e2e/web/**/*.cy.ts'",
+    "web:smoke:qa": "CYPRESS_INCLUDE_TAGS=smoke node_modules/.bin/cypress run --env name=qa --spec 'cypress/e2e/web/**/*.cy.ts'",
+    "api:smoke": "CYPRESS_INCLUDE_TAGS=smoke node_modules/.bin/cypress run --env name=prod --spec 'cypress/e2e/api/*.cy.ts'  --record --key 34b0d0c4-a1f2-4bfa-947c-b6a8207b359b",
+    "api:regression": "CYPRESS_INCLUDE_TAGS=regression node_modules/.bin/cypress run --env name=prod --spec 'cypress/e2e/api/*.cy.ts'  --record --key 34b0d0c4-a1f2-4bfa-947c-b6a8207b359b",
+    "web:regression": "CYPRESS_INCLUDE_TAGS=regression node_modules/.bin/cypress run --spec 'cypress/e2e/web/**/*.cy.ts' --record --key 34b0d0c4-a1f2-4bfa-947c-b6a8207b359b",
+    "web:regression:prod": "CYPRESS_INCLUDE_TAGS=regression node_modules/.bin/cypress run --spec 'cypress/e2e/web/**/*.cy.ts' --env name=prod --spec 'cypress/e2e/web/**/*.cy.ts'",
+    "web:regression:staging": "CYPRESS_INCLUDE_TAGS=regression node_modules/.bin/cypress run --spec 'cypress/e2e/web/**/*.cy.ts' --env name=staging --spec 'cypress/e2e/web/**/*.cy.ts'",
+    "web:regression:qa": "CYPRESS_INCLUDE_TAGS=regression node_modules/.bin/cypress run --spec 'cypress/e2e/web/**/*.cy.ts' --env name=qa --spec 'cypress/e2e/web/**/*.cy.ts'",
+    "web:smoke:chrome:headless": "CYPRESS_INCLUDE_TAGS=smoke node_modules/.bin/cypress run --spec 'cypress/e2e/web/**/*.cy.ts' --browser chrome",
+    "web:smoke:chrome:headed": "CYPRESS_INCLUDE_TAGS=smoke node_modules/.bin/cypress run --spec 'cypress/e2e/web/**/*.cy.ts' --browser chrome --headed",
+    "web:regression:chrome:headless": "CYPRESS_INCLUDE_TAGS=regression node_modules/.bin/cypress run --spec 'cypress/e2e/web/**/*.cy.ts' --browser chrome",
+    "web:regression:chrome:headed": "CYPRESS_INCLUDE_TAGS=regression node_modules/.bin/cypress run --spec 'cypress/e2e/web/**/*.cy.ts' --browser chrome --headed"
+  },
+  "author": "Swaroop Kakarlapudi",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "cypress": "^11.2.0",
+    "cypress-iframe": "^1.0.1",
+    "cypress-tags": "^1.1.2",
+    "eslint": "^8.28.0",
+    "typescript": "^4.9.3",
+    "uuid": "^9.0.0"
+  }
+}

@@ -1,0 +1,32 @@
+pipeline {
+  agent {
+    // this image provides everything needed to run Cypress
+    docker {
+      image 'cypress/base:10'
+    }
+  }
+
+  triggers {
+    cron('H 7 * * *')
+  }
+
+  stages {
+    stage('build and test') {
+      environment {
+        cypress_user_password = credentials('user-password')
+        cypress_apiKey = credentials('apiKey')
+      }
+
+      steps {
+        sh 'npm install'
+        sh "npm run cy:run"
+      }
+    }
+  }
+
+  post{
+    always{
+        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'cypress/report', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
+    }
+  }
+}
