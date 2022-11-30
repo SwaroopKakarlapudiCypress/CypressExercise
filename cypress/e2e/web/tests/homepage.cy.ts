@@ -4,9 +4,6 @@ import homePage from '../pages/HomePage';
 
 describe('Homepage tests', () => {
   beforeEach(function () {
-    cy.fixture('login').then(function (data) {
-      this.data = data;
-    });
     cy.navigateToHomePage();
   });
 
