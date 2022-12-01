@@ -1,20 +1,22 @@
+import  { MethodType, OrderInputType } from '../../fixtures/schema';
 const order:any = global;
 describe('Store API tests', function() {
+    let input: OrderInputType;
+    before('Get test data', function(){
+        cy.fixture('store').then(function(data){
+            this.data = data;
+            input = this.data.input;
+        });
+    });
 
     it(['smoke','regression'], 'POST a new order', function() {
         cy.request({
-            method: 'POST',
+            method: MethodType.POST,
             url: `${Cypress.env('apiUrl')}/store/order`,
             headers: {
                 'x-api-key': Cypress.env('apiKey')
             },
-            body: {
-                "id": 0,
-                "petId": 0,
-                "quantity": 0,
-                "status": "placed",
-                "complete": true
-              }
+            body: input
         }).then(function(response){
             expect(response.status).equal(200);
             expect(response.body.complete).to.be.true;
@@ -28,16 +30,15 @@ describe('Store API tests', function() {
 
     it(['smoke','regression'], 'GET store inventory', function() {
         cy.request({
-            method: 'GET',
+            method: MethodType.GET,
             url: `${Cypress.env('apiUrl')}/store/inventory`,
             headers: {
                 'x-api-key': Cypress.env('apiKey')
             },
         }).then(function(response){
             expect(response.status).equal(200);
+            cy.log(response.body);
             expect(response.body.available).to.be.a('number');
-            expect(response.body.sold).to.be.a('number');
-            expect(response.body.pending).to.be.a('number');
         })
     });
 });

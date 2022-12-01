@@ -1,0 +1,26 @@
+{
+    "input": {
+        "id": 0,
+        "username": "string",
+        "firstName": "Test",
+        "lastName": "Test",
+        "email": "string",
+        "password": "string",
+        "phone": "test",
+        "userStatus": 0
+      },
+      "login": {
+        "username": "string",
+        "password": "string"
+      },
+      "updateInput": {
+        "id": 0,
+        "username": "string",
+        "firstName": "UpdatedTest",
+        "lastName": "UpdatedTest",
+        "email": "string",
+        "password": "string",
+        "phone": "Updatedtest",
+        "userStatus": 0
+      }
+}

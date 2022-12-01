@@ -1,27 +1,34 @@
 import {v4 as uuidv4} from 'uuid';
+import  { MethodType, UserInputType, UserLoginType } from '../../fixtures/schema';
 const user:any = global;
 describe('User API tests', function() {
     const username = uuidv4();
     const email = `${uuidv4()}@test.com`;
     const password = uuidv4();
+    let input: UserInputType;
+    let login: UserLoginType;
+    let updateInput: UserInputType;
+    before('Get test data', function() {
+        cy.fixture('user').then(function(data) {
+            this.data = data;
+            input = this.data.input;
+            login = this.data.login;
+            updateInput = this.data.updateInput;
+        });
+    });
 
     it(['smoke','regression'], 'POST a new user', function() {
         cy.request({
-            method: 'POST',
+            method: MethodType.POST,
             url: `${Cypress.env('apiUrl')}/user`,
             headers: {
                 'x-api-key': Cypress.env('apiKey')
             },
-            body: {
-                "id": 0,
+            body: Object.assign(input, {
                 "username": username,
-                "firstName": "Test",
-                "lastName": "Test",
                 "email": email,
-                "password": password,
-                "phone": "test",
-                "userStatus": 0
-              }
+                "password": password
+            })
         }).then(function(response){
             expect(response.status).equal(200);
             expect(response.body.message).to.be.a('string');
@@ -31,7 +38,7 @@ describe('User API tests', function() {
 
     it(['smoke','regression'], 'GET user by username', function() {
         cy.request({
-            method: 'GET',
+            method: MethodType.GET,
             url: `${Cypress.env('apiUrl')}/user/${username}`,
             headers: {
                 'x-api-key': Cypress.env('apiKey')
@@ -51,15 +58,15 @@ describe('User API tests', function() {
 
     it(['smoke','regression'], 'GET user login', function() {
         cy.request({
-            method: 'GET',
+            method: MethodType.GET,
             url: `${Cypress.env('apiUrl')}/user/login`,
             headers: {
                 'x-api-key': Cypress.env('apiKey')
             },
-            qs: {
-                'username': username,
-                'password': password
-            }
+            qs: Object.assign(login, {
+                "username": username,
+                "password": password
+            })
         }).then(function(response){
             expect(response.status).equal(200);
             expect(response.body.message).to.include('logged in user session');
@@ -69,21 +76,16 @@ describe('User API tests', function() {
 
     it(['smoke','regression'], 'PUT user', function() {
         cy.request({
-            method: 'PUT',
+            method: MethodType.PUT,
             url: `${Cypress.env('apiUrl')}/user/${username}`,
             headers: {
                 'x-api-key': Cypress.env('apiKey')
             },
-            body: {
-                "id": 0,
+            body: Object.assign(updateInput, {
                 "username": username,
-                "firstName": "UpdatedTest",
-                "lastName": "UpdatedTest",
                 "email": email,
-                "password": password,
-                "phone": "Updatedtest",
-                "userStatus": 0
-              }
+                "password": password
+            })
         }).then(function(response){
             expect(response.status).equal(200);
             expect(response.body.message).to.be.a('string');
@@ -94,15 +96,15 @@ describe('User API tests', function() {
 
     it(['smoke','regression'], 'GET user logout', function() {
         cy.request({
-            method: 'GET',
+            method: MethodType.GET,
             url: `${Cypress.env('apiUrl')}/user/logout`,
             headers: {
                 'x-api-key': Cypress.env('apiKey')
             },
-            qs: {
-                'username': username,
-                'password': password
-            }
+            qs: Object.assign(login, {
+                "username": username,
+                "password": password
+            })
         }).then(function(response){
             expect(response.status).equal(200);
         })
@@ -110,7 +112,7 @@ describe('User API tests', function() {
 
     it(['smoke','regression'], 'DELETE user', function() {
         cy.request({
-            method: 'GET',
+            method: MethodType.DELETE,
             url: `${Cypress.env('apiUrl')}/user/${username}`,
             headers: {
                 'x-api-key': Cypress.env('apiKey')

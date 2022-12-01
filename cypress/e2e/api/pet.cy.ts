@@ -1,31 +1,24 @@
+import  { MethodType, PetInputType } from '../../fixtures/schema';
 const pet:any = global;
 describe('Pet API tests', function() {
+    let input: PetInputType;
+    let updateInput: PetInputType;
+    before('Get test data', function() {
+        cy.fixture('pet').then(function(data) {
+            this.data = data;
+            input = this.data.input;
+            updateInput = this.data.updateInput;
+        })
+    });
 
     it(['smoke','regression'], 'POST a new pet', function() {
         cy.request({
-            method: 'POST',
+            method: MethodType.POST,
             url: `${Cypress.env('apiUrl')}/pet`,
             headers: {
                 'x-api-key': Cypress.env('apiKey')
             },
-            body: {
-                "id": 0,
-                "category": {
-                  "id": 0,
-                  "name": "string"
-                },
-                "name": "doggie",
-                "photoUrls": [
-                  "string"
-                ],
-                "tags": [
-                  {
-                    "id": 0,
-                    "name": "string"
-                  }
-                ],
-                "status": "available"
-            }
+            body: input
         }).then(function(response){
             expect(response.status).equal(200);
             expect(response.body.id).to.be.a('number');
@@ -42,29 +35,12 @@ describe('Pet API tests', function() {
 
     it(['smoke','regression'], 'PUT status to sold', function() {
         cy.request({
-            method: 'PUT',
+            method: MethodType.PUT,
             url: `${Cypress.env('apiUrl')}/pet/`,
             headers: {
                 'x-api-key': Cypress.env('apiKey')
             },
-            body: {
-                "id": pet.id,
-                "category": {
-                  "id": 0,
-                  "name": "string"
-                },
-                "name": "doggie",
-                "photoUrls": [
-                  "string"
-                ],
-                "tags": [
-                  {
-                    "id": 0,
-                    "name": "string"
-                  }
-                ],
-                "status": "sold"
-            }
+            body: Object.assign(updateInput,{"id": pet.id})
         }).then(function(response){
             expect(response.status).equal(200);
             expect(response.body.id).equal(pet.id);
@@ -80,7 +56,7 @@ describe('Pet API tests', function() {
 
     it(['smoke','regression'], 'GET pet details', function() {
         cy.request({
-            method: 'GET',
+            method: MethodType.GET,
             url: `${Cypress.env('apiUrl')}/pet/${pet.id}`,
             headers: {
                 'x-api-key': Cypress.env('apiKey')
@@ -101,7 +77,7 @@ describe('Pet API tests', function() {
 
     it(['smoke','regression'], 'DELETE pet', function() {
         cy.request({
-            method: 'DELETE',
+            method: MethodType.DELETE,
             url: `${Cypress.env('apiUrl')}/pet/${pet.id}`,
             headers: {
                 'x-api-key': Cypress.env('apiKey')
@@ -113,7 +89,7 @@ describe('Pet API tests', function() {
 
     it(['smoke','regression'], 'GET pet details are not found', function() {
         cy.request({
-            method: 'GET',
+            method: MethodType.GET,
             url: `${Cypress.env('apiUrl')}/pet/${pet.id}`,
             failOnStatusCode: false,
             headers: {

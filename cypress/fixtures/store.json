@@ -1,0 +1,9 @@
+{
+    "input": {
+        "id": 0,
+        "petId": 0,
+        "quantity": 0,
+        "status": "placed",
+        "complete": true
+    }
+}
